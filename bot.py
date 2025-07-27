@@ -160,7 +160,11 @@ def create_chatbot_with_memory():
         # Create system message for context
         system_message = SystemMessage(content="""You are a helpful AI assistant. You have memory of the entire conversation history. 
         Use this context to provide more relevant and personalized responses. 
-        Be conversational and engaging while maintaining helpfulness.""")
+        Be conversational and engaging while maintaining helpfulness.
+        
+        IMPORTANT: When you receive tool results (like search results), use them directly if they already provide a complete answer to the user's question. 
+        Do not re-summarize or restate information that is already clearly presented in tool results. 
+        Only add your own commentary if it adds genuine value or if the tool result needs clarification.""")
 
         # Combine system message with conversation history
         full_messages = [system_message] + messages
