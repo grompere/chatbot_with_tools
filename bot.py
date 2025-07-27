@@ -257,12 +257,25 @@ def run_interactive_chatbot():
             conversation_state["messages"].append(human_message)
             
             print("Assistant:", end=" ", flush=True)
+            last_ai_message = None  # Track the most recent assistant message
             for event in chatbot.stream(conversation_state):
-                for value in event.values():
-                    ai_message = value["messages"][-1]
-                    print(ai_message.content, end="", flush=True)
-                    # Add AI response to conversation state
-                    conversation_state["messages"].append(ai_message)
+                # Each event is a mapping {node_name: {"messages": [...]}}
+                for node_name, value in event.items():
+                    # Only surface the assistant output, skip tool nodes
+                    if node_name != "chatbot":
+                        continue
+                    ai_message = value["messages"][-1]  # This is always an AIMessage
+                    # Print incremental tokens (if any)
+                    if ai_message.content:
+                        print(ai_message.content, end="", flush=True)
+                    # Track the latest non-empty assistant message
+                    if ai_message.content:
+                        last_ai_message = ai_message
+
+            # After streaming, append the final assistant message to memory once
+            if last_ai_message is not None:
+                conversation_state["messages"].append(last_ai_message)
+
             print()  # New line after response
             
         except KeyboardInterrupt:
