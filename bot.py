@@ -12,6 +12,16 @@ from langchain_core.messages import ToolMessage
 from langchain.tools import BaseTool
 from pydantic import BaseModel, Field
 
+# Try to import python-dotenv, install if not available
+try:
+    from dotenv import load_dotenv
+except ImportError:
+    print("Installing python-dotenv...")
+    import subprocess
+    import sys
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "python-dotenv"])
+    from dotenv import load_dotenv
+
 class State(TypedDict):
     # Messages have the type "list". The `add_messages` function
     # in the annotation defines how this state key should be updated
@@ -93,7 +103,7 @@ class GoogleSearchTool(BaseTool):
             
             Summary:"""
             
-            summary_message = HumanMessage(content=summary_prompt)
+            summary_message = HumanMessage(content=summary_prompt) 
             summary_response = self.summarizer_llm.invoke([summary_message])
             
             return summary_response.content
@@ -106,6 +116,9 @@ class GoogleSearchTool(BaseTool):
 
 def create_chatbot_with_memory():
     """Create a chatbot with memory using LangGraph and Google GenAI"""
+    
+    # Load environment variables from .env file
+    load_dotenv()
     
     # Set up Google API key
     if "GOOGLE_API_KEY" not in os.environ:
