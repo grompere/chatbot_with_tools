@@ -11,6 +11,13 @@ A conversational AI assistant built with LangChain and LangGraph that can search
 - 🔒 **Secure API Key Management**: Uses `.env` files for secure credential storage
 - ⚡ **Interactive Mode**: Run as an interactive chatbot or single-query mode
 
+## Demo
+
+Watch a short demo of the chatbot in action here: [Chatbot with Tools Demo](https://streamable.com/isye3q)
+
+- 🤖 **Conversational Memory**: Remembers the entire conversation history
+- 🔍 **Google Search Integration**: Can search for current information using Google Custom Search API
+
 ## Prerequisites
 
 - Python 3.9+
