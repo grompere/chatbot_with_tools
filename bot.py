@@ -95,10 +95,6 @@ class GoogleSearchTool(BaseTool):
             
             summary_message = HumanMessage(content=summary_prompt)
             summary_response = self.summarizer_llm.invoke([summary_message])
-
-            print(f"DEBUG: Search result: '{summary_prompt}'")
-            print(f"DEBUG: Summary response: '{summary_response.content}'")
-            print(f"DEBUG: Summary response length: {len(summary_response.content)}")
             
             return summary_response.content
             
